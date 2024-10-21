@@ -3,15 +3,89 @@ import { createSchema, createYoga } from "graphql-yoga";
 
 const PORT = 4040;
 
-const typeDefs = `
-    type Query {
-        hello: String
-    }
+const users = [
+  { id: "u001", name: "monica", age: 22 },
+  { id: "u002", name: "ross", age: 24 },
+  { id: "u003", name: "rachel", age: 21 },
+];
+
+const posts = [
+  { id: "p001", title: "GraphQL 101", body: "I love it❤️❤️", published: false },
+  {
+    id: "p002",
+    title: "NodeJS for Beginners",
+    body: "I like it",
+    published: true,
+  },
+  { id: "p003", title: "Refresh React", body: "Not bad", published: false },
+  {
+    id: "p004",
+    title: "Advanced of Angular",
+    body: "for advance peeps",
+    published: true,
+  },
+];
+const comments = [
+  {
+    id: "c001",
+    text: "all good",
+  },
+  {
+    id: "c001",
+    text: "very well",
+  },
+  {
+    id: "c001",
+    text: "nothing. just like that",
+  },
+];
+
+const typeDefs = /* GraphQL */ `
+  type Query {
+    users(searchTerm: String): [User!]!
+    posts(searchTerm: String): [Post!]!
+    comments: [Comment!]!
+  }
+  type User {
+    id: ID!
+    name: String!
+    age: Int!
+  }
+  type Post {
+    id: ID!
+    title: String!
+    body: String!
+    published: Boolean!
+  }
+  type Comment {
+    id: ID!
+    text: String!
+  }
 `;
 
 const resolvers = {
   Query: {
-    hello: () => "World!",
+    users: (parent, args, context, info) => {
+      if (args.searchTerm) {
+        return users.filter((user) =>
+          user.name.toLowerCase().includes(args.searchTerm.toLowerCase())
+        );
+      }
+      return users;
+    },
+    posts: (parent, args, context, info) => {
+      if (args.searchTerm) {
+        return posts.filter(
+          (post) =>
+            post.title.toLowerCase().includes(args.searchTerm) ||
+            post.body.toLowerCase().includes(args.searchTerm)
+        );
+      }
+      return posts;
+    },
+    comments: (parent, args, context, info) => {
+      return comments;
+    },
   },
 };
 
