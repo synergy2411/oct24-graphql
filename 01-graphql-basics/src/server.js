@@ -43,14 +43,22 @@ const comments = [
   {
     id: "c001",
     text: "all good",
+    postId: "p004",
   },
   {
-    id: "c001",
+    id: "c002",
     text: "very well",
+    postId: "p003",
   },
   {
-    id: "c001",
+    id: "c003",
     text: "nothing. just like that",
+    postId: "p001",
+  },
+  {
+    id: "c004",
+    text: "just like that",
+    postId: "p003",
   },
 ];
 
@@ -72,10 +80,12 @@ const typeDefs = /* GraphQL */ `
     body: String!
     published: Boolean!
     author: User!
+    comments: [Comment!]!
   }
   type Comment {
     id: ID!
     text: String!
+    post: Post!
   }
 `;
 
@@ -111,6 +121,14 @@ const resolvers = {
   Post: {
     author: (parent, args, context, info) => {
       return users.find((user) => user.id === parent.author);
+    },
+    comments: (parent, args, context, info) => {
+      return comments.filter((comment) => comment.postId === parent.id);
+    },
+  },
+  Comment: {
+    post: (parent, args, context, info) => {
+      return posts.find((post) => post.id === parent.postId);
     },
   },
 };
