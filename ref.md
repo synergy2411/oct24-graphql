@@ -75,3 +75,16 @@ id: ID
 name: String
 price: Float
 }
+
+---
+
+# Steps for creating GraphQL Server
+
+- Generate package.json file
+  > npm init -y
+- GraphQL Dependencies installation
+  > npm install graphql-yoga graphql
+  > npm install nodemon -D
+- Create Script to run the project
+  > npm run dev:start
+- Create Graphql Yoga Server
