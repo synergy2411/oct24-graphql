@@ -88,3 +88,5 @@ price: Float
 - Create Script to run the project
   > npm run dev:start
 - Create Graphql Yoga Server
+
+npm install graphql-import-files -D
