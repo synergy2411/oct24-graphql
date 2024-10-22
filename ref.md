@@ -110,6 +110,10 @@ mongodb+srv://myuser:WL6hIXVEOlkCsxik@mycluster.e9xsq.mongodb.net/?retryWrites=t
 > npx prisma init
 > npx prisma db push
 
+# to hashify the password
+
+> npm i bcryptjs
+
 # Plugins
 
 - GraphQL
