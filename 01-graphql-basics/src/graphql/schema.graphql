@@ -3,6 +3,10 @@ type Query {
   posts(searchTerm: String): [Post!]!
   comments: [Comment!]!
 }
+type Mutation {
+  createUser(name: String!, age: Int!): User!
+}
+
 type User {
   id: ID!
   name: String!

@@ -90,3 +90,4 @@ price: Float
 - Create Graphql Yoga Server
 
 npm install graphql-import-files -D
+npm install uuid
