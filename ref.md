@@ -115,3 +115,10 @@ mongodb+srv://myuser:WL6hIXVEOlkCsxik@mycluster.e9xsq.mongodb.net/?retryWrites=t
 - GraphQL
 - Prisma
 - Prettier
+
+# Steps
+
+1. Register the user (mutation - signup)
+2. Login (mutation - signIn)
+3. Assign JWT Token
+4. Allowed for protected resource
