@@ -40,6 +40,38 @@ let Mutation = {
     db.posts.push(newPost);
     return newPost;
   },
+  createComment: (parent, args, { db }, info) => {
+    const { text, postId, creatorId } = args.data;
+    const userPosition = db.users.findIndex((user) => user.id === creatorId);
+    if (userPosition === -1) {
+      throw new GraphQLError("Unable to find creator for id - " + creatorId);
+    }
+    const postPosition = db.posts.findIndex((post) => post.id === postId);
+    if (postPosition === -1) {
+      throw new GraphQLError("Unable to find post for id - " + postId);
+    }
+
+    let newComment = {
+      id: v4(),
+      text,
+      postId,
+      creator: creatorId,
+    };
+    db.comments.push(newComment);
+    return newComment;
+  },
+  deleteComment: (parent, args, { db }, info) => {
+    const position = db.comments.findIndex(
+      (comment) => comment.id === args.commentId
+    );
+    if (position === -1) {
+      throw new GraphQLError(
+        "Unable to find comment for id - " + args.commentId
+      );
+    }
+    const [deletedComment] = db.comments.splice(position, 1);
+    return deletedComment;
+  },
 };
 
 export default Mutation;

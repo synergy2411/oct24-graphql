@@ -6,6 +6,8 @@ type Query {
 type Mutation {
   createUser(name: String!, age: Int!): User!
   createPost(data: CreatePostInput!): Post!
+  createComment(data: CreateCommentInput): Comment!
+  deleteComment(commentId: ID!): Comment!
 }
 
 type User {
@@ -34,4 +36,9 @@ input CreatePostInput {
   title: String!
   body: String!
   authorId: ID!
+}
+input CreateCommentInput {
+  text: String!
+  postId: ID!
+  creatorId: ID!
 }
