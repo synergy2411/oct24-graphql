@@ -91,3 +91,27 @@ price: Float
 
 npm install graphql-import-files -D
 npm install uuid
+
+---
+
+Mongo Atlas
+username : myuser
+password: WL6hIXVEOlkCsxik
+
+Mongo SRV:
+mongodb+srv://myuser:WL6hIXVEOlkCsxik@mycluster.e9xsq.mongodb.net/?retryWrites=true&w=majority&appName=MyCluster
+
+---
+
+# GraphQL, Prisma with MongoDB
+
+> npm init -y
+> npm install prisma -D
+> npx prisma init
+> npm prisma db push
+
+# Plugins
+
+- GraphQL
+- Prisma
+- Prettier
