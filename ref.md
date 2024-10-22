@@ -108,7 +108,7 @@ mongodb+srv://myuser:WL6hIXVEOlkCsxik@mycluster.e9xsq.mongodb.net/?retryWrites=t
 > npm init -y
 > npm install prisma -D
 > npx prisma init
-> npm prisma db push
+> npx prisma db push
 
 # Plugins
 
