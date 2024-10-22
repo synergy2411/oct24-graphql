@@ -72,6 +72,19 @@ let Mutation = {
     const [deletedComment] = db.comments.splice(position, 1);
     return deletedComment;
   },
+  deletePost: (parent, args, { db }, info) => {
+    const position = db.posts.findIndex((post) => post.id === args.postId);
+
+    if (position === -1) {
+      throw new GraphQLError("Unable to delete post for id - " + args.postId);
+    }
+
+    db.comments = db.comments.filter(
+      (comment) => comment.postId !== args.postId
+    );
+    const [deletedPost] = db.posts.splice(position, 1);
+    return deletedPost;
+  },
 };
 
 export default Mutation;
