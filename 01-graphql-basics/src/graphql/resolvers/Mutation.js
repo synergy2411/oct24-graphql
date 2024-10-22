@@ -1,3 +1,4 @@
+import { GraphQLError } from "graphql";
 import { v4 } from "uuid";
 
 let Mutation = {
@@ -18,6 +19,26 @@ let Mutation = {
 
     db.users.push(newUser);
     return newUser;
+  },
+  createPost: (parent, args, { db }, info) => {
+    const { title, body, authorId } = args.data;
+
+    const position = db.users.findIndex((user) => user.id === authorId);
+
+    if (position === -1) {
+      throw new GraphQLError("Unable to locate user for id -" + authorId);
+    }
+
+    let newPost = {
+      id: v4(),
+      title,
+      body,
+      author: authorId,
+      published: false,
+    };
+
+    db.posts.push(newPost);
+    return newPost;
   },
 };
 
