@@ -61,3 +61,6 @@ const comments = [
 ];
 
 export default { users, posts, comments };
+
+// u001 - p004, c003, c001
+// u002 - p002, c004,

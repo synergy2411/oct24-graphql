@@ -85,6 +85,30 @@ let Mutation = {
     const [deletedPost] = db.posts.splice(position, 1);
     return deletedPost;
   },
+  deleteUser: (parent, args, { db }, info) => {
+    const position = db.users.findIndex((user) => user.id === args.userId);
+    if (position === -1) {
+      throw new GraphQLError("Unable to delete user for id - " + args.userId);
+    }
+    db.posts = db.posts.filter((post) => {
+      const isMatched = post.author === args.userId;
+
+      if (isMatched) {
+        db.comments = db.comments.filter(
+          (comment) => comment.postId !== post.id
+        );
+      }
+      return !isMatched;
+    });
+
+    db.comments = db.comments.filter(
+      (comment) => comment.creator !== args.userId
+    );
+
+    const [deletedUser] = db.users.splice(position, 1);
+
+    return deletedUser;
+  },
 };
 
 export default Mutation;
