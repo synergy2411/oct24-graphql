@@ -20,7 +20,7 @@ let Mutation = {
     db.users.push(newUser);
     return newUser;
   },
-  createPost: (parent, args, { db }, info) => {
+  createPost: (parent, args, { db, pubsub }, info) => {
     const { title, body, authorId } = args.data;
 
     const position = db.users.findIndex((user) => user.id === authorId);
@@ -36,6 +36,8 @@ let Mutation = {
       author: authorId,
       published: false,
     };
+
+    pubsub.publish("the-post-channel", newPost);
 
     db.posts.push(newPost);
     return newPost;

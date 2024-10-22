@@ -12,7 +12,9 @@ type Mutation {
   createComment(data: CreateCommentInput): Comment!
   deleteComment(commentId: ID!): Comment!
 }
-
+type Subscription {
+  post: Post!
+}
 type User {
   id: ID!
   name: String!
