@@ -37,7 +37,10 @@ let Mutation = {
       published: false,
     };
 
-    pubsub.publish("the-post-channel", newPost);
+    pubsub.publish("the-post-channel", {
+      post: newPost,
+      mutationType: "CREATED",
+    });
 
     db.posts.push(newPost);
     return newPost;
@@ -74,7 +77,7 @@ let Mutation = {
     const [deletedComment] = db.comments.splice(position, 1);
     return deletedComment;
   },
-  deletePost: (parent, args, { db }, info) => {
+  deletePost: (parent, args, { db, pubsub }, info) => {
     const position = db.posts.findIndex((post) => post.id === args.postId);
 
     if (position === -1) {
@@ -85,6 +88,10 @@ let Mutation = {
       (comment) => comment.postId !== args.postId
     );
     const [deletedPost] = db.posts.splice(position, 1);
+    pubsub.publish("the-post-channel", {
+      post: deletedPost,
+      mutationType: "DELETED",
+    });
     return deletedPost;
   },
   deleteUser: (parent, args, { db }, info) => {
