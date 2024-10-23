@@ -32,9 +32,9 @@ function Posts() {
                 <div className="card-body">
                   <h5 className="text-center">{post.title.toUpperCase()}</h5>
                   <blockquote>
-                    {post.body} -{" "}
+                    {post.body}{" "}
                     <cite className="float-end">
-                      {post.author.name.toUpperCase()}
+                      -{post.author.name.toUpperCase()}
                     </cite>
                   </blockquote>
                 </div>

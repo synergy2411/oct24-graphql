@@ -1,10 +1,10 @@
-import Posts from "./Components/Blog/Posts";
+import Cockpit from "./Components/Blog/Cockpit";
 
 function App() {
   return (
     <>
       <h1>App Works!</h1>
-      <Posts></Posts>
+      <Cockpit />
     </>
   );
 }
