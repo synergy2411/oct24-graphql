@@ -1,4 +1,4 @@
-import { ApolloClient, InMemoryCache, HttpLink, gql } from "@apollo/client";
+import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 
 describe("GraphQL Server API Testing", () => {
   let client = null;

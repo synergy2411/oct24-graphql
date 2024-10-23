@@ -146,3 +146,8 @@ mongodb+srv://myuser:WL6hIXVEOlkCsxik@mycluster.e9xsq.mongodb.net/?retryWrites=t
 > npm install bootstrap
 > npm install @apollo/client graphql
 > npm run start
+
+---
+
+npm install
+npm start
