@@ -38,7 +38,6 @@ const typeDefs = /* GraphQL */ `
   input CreatePostInput {
     title: String!
     body: String!
-    authorId: ID!
   }
   input SignUpInput {
     name: String!
@@ -117,22 +116,21 @@ const resolvers = {
         throw new GraphQLError(err);
       }
     },
-    createPost: async (parent, args, context, info) => {
+    createPost: async (parent, args, { token }, info) => {
       try {
-        const { title, body, authorId } = args.data;
-        const foundUser = await prisma.user.findFirst({
-          where: { id: authorId },
-        });
-        if (!foundUser) {
-          throw new GraphQLError("Unable to find user for id - " + authorId);
+        if (token === null) {
+          throw new GraphQLError("Authorization failed");
         }
+        const { id, name, email, role } = verify(token, SECRET_KEY);
+
+        const { title, body } = args.data;
 
         await prisma.post.create({
           data: {
             title,
             body,
             published: false,
-            authorId,
+            authorId: id,
           },
         });
 
@@ -155,6 +153,16 @@ const schema = createSchema({
 
 const yoga = createYoga({
   schema,
+  context: ({ request }) => {
+    let token = null;
+    const authHeader = request.headers.get("authorization");
+    if (authHeader) {
+      token = authHeader.split(" ")[1]; // "Bearer TOKEN_VALUE" => ["Bearer", "TOKEN_VALUE"]
+    }
+    return {
+      token,
+    };
+  },
 });
 
 const server = createServer(yoga);
