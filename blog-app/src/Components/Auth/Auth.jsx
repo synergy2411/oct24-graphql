@@ -1,6 +1,30 @@
+import { useRef } from "react";
+import { gql, useMutation } from "@apollo/client";
+
+const SIGN_IN = gql`
+  mutation signIn($email: String!, $password: String!) {
+    signIn(data: { email: $email, password: $password }) {
+      token
+    }
+  }
+`;
+
 function Auth() {
+  const emailRef = useRef();
+  const passwordRef = useRef();
+
+  const [signInMutation] = useMutation(SIGN_IN);
+
   const submitHandler = (event) => {
     event.preventDefault();
+    signInMutation({
+      variables: {
+        email: emailRef.current.value,
+        password: passwordRef.current.value,
+      },
+    })
+      .then(console.log)
+      .catch(console.error);
   };
 
   return (
@@ -19,6 +43,7 @@ function Auth() {
                   name="email"
                   id="email"
                   placeholder=""
+                  ref={emailRef}
                 />
                 <label htmlFor="email">Email:</label>
               </div>
@@ -31,6 +56,7 @@ function Auth() {
                   name="password"
                   id="password"
                   placeholder=""
+                  ref={passwordRef}
                 />
                 <label htmlFor="password">Password:</label>
               </div>
