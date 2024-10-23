@@ -16,6 +16,7 @@ const typeDefs = /* GraphQL */ `
   type Mutation {
     signUp(data: SignUpInput): SignUpPayload!
     signIn(data: SignInInput): SignInPayload!
+    createPost(data: CreatePostInput!): PostPayload!
   }
 
   type Query {
@@ -30,6 +31,15 @@ const typeDefs = /* GraphQL */ `
     token: String!
   }
 
+  type PostPayload {
+    message: String!
+  }
+
+  input CreatePostInput {
+    title: String!
+    body: String!
+    authorId: ID!
+  }
   input SignUpInput {
     name: String!
     age: Int!
@@ -91,9 +101,42 @@ const resolvers = {
           throw new GraphQLError("Bad Password");
         }
 
-        const token = sign(foundUser, SECRET_KEY);
+        const token = sign(
+          {
+            id: foundUser.id,
+            name: foundUser.name,
+            email: foundUser.email,
+            role: foundUser.role,
+          },
+          SECRET_KEY
+        );
 
         return { token };
+      } catch (err) {
+        console.log(err);
+        throw new GraphQLError(err);
+      }
+    },
+    createPost: async (parent, args, context, info) => {
+      try {
+        const { title, body, authorId } = args.data;
+        const foundUser = await prisma.user.findFirst({
+          where: { id: authorId },
+        });
+        if (!foundUser) {
+          throw new GraphQLError("Unable to find user for id - " + authorId);
+        }
+
+        await prisma.post.create({
+          data: {
+            title,
+            body,
+            published: false,
+            authorId,
+          },
+        });
+
+        return { message: "Post successfully created" };
       } catch (err) {
         console.log(err);
         throw new GraphQLError(err);
