@@ -23,7 +23,9 @@ function Auth() {
         password: passwordRef.current.value,
       },
     })
-      .then(console.log)
+      .then(({ data }) => {
+        localStorage.setItem("token", data.signIn.token);
+      })
       .catch(console.error);
   };
 
