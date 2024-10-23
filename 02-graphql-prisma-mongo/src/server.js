@@ -2,9 +2,13 @@ import { createServer } from "node:http";
 import { createYoga, createSchema } from "graphql-yoga";
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 import { GraphQLError } from "graphql";
 
 const { hashSync, compareSync } = bcrypt;
+const { sign, verify } = jwt;
+
+const SECRET_KEY = "MY_SUPER_SECRET_KEY";
 
 const prisma = new PrismaClient();
 
@@ -87,7 +91,9 @@ const resolvers = {
           throw new GraphQLError("Bad Password");
         }
 
-        return { token: "TOKEN_VALUE" };
+        const token = sign(foundUser, SECRET_KEY);
+
+        return { token };
       } catch (err) {
         console.log(err);
         throw new GraphQLError(err);

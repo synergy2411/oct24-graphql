@@ -112,7 +112,11 @@ mongodb+srv://myuser:WL6hIXVEOlkCsxik@mycluster.e9xsq.mongodb.net/?retryWrites=t
 
 # to hashify the password
 
-> npm i bcryptjs
+> npm install bcryptjs
+
+# to generate JWT token
+
+> npm install jsonwebtoken
 
 # Plugins
 
@@ -126,3 +130,11 @@ mongodb+srv://myuser:WL6hIXVEOlkCsxik@mycluster.e9xsq.mongodb.net/?retryWrites=t
 2. Login (mutation - signIn)
 3. Assign JWT Token
 4. Allowed for protected resource
+
+---
+
+- Mutation: create update delete
+- Subscriptions: real-time updates
+- MongoDB Atlas
+- Prisma: ORM Tool
+- SignUp / SignIn
