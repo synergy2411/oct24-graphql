@@ -138,3 +138,11 @@ mongodb+srv://myuser:WL6hIXVEOlkCsxik@mycluster.e9xsq.mongodb.net/?retryWrites=t
 - MongoDB Atlas
 - Prisma: ORM Tool
 - SignUp / SignIn
+
+# to create react app
+
+> npx create-react-app blog-app
+> cd blog-app
+> npm install bootstrap
+> npm install @apollo/client graphql
+> npm run start
