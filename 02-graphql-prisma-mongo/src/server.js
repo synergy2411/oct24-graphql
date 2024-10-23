@@ -21,6 +21,21 @@ const typeDefs = /* GraphQL */ `
 
   type Query {
     hello: String!
+    posts: [Post!]!
+  }
+
+  type Post {
+    id: ID!
+    title: String!
+    body: String!
+    published: Boolean!
+    author: User!
+  }
+
+  type User {
+    name: String!
+    age: Int!
+    email: String!
   }
 
   type SignUpPayload {
@@ -143,6 +158,23 @@ const resolvers = {
   },
   Query: {
     hello: () => "World",
+    posts: async (parent, args, context, info) => {
+      try {
+        const allPosts = await prisma.post.findMany({
+          include: {
+            author: true,
+          },
+          // take: 2,
+          // skip: 1,
+          orderBy: {
+            title: "desc",
+          },
+        });
+        return allPosts;
+      } catch (err) {
+        throw new GraphQLError(err);
+      }
+    },
   },
 };
 
