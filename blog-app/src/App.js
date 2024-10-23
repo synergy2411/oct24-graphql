@@ -1,10 +1,14 @@
+import { useState } from "react";
 import Cockpit from "./Components/Blog/Cockpit";
+import AuthContext from "./Context/AuthContext";
 
 function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   return (
     <>
-      <h1>App Works!</h1>
-      <Cockpit />
+      <AuthContext.Provider value={{ isLoggedIn, setIsLoggedIn }}>
+        <Cockpit />
+      </AuthContext.Provider>
     </>
   );
 }

@@ -1,5 +1,7 @@
 import { useRef } from "react";
 import { gql, useMutation } from "@apollo/client";
+import { useContext } from "react";
+import AuthContext from "../../Context/AuthContext";
 
 const SIGN_IN = gql`
   mutation signIn($email: String!, $password: String!) {
@@ -12,6 +14,7 @@ const SIGN_IN = gql`
 function Auth() {
   const emailRef = useRef();
   const passwordRef = useRef();
+  const context = useContext(AuthContext);
 
   const [signInMutation] = useMutation(SIGN_IN);
 
@@ -25,6 +28,7 @@ function Auth() {
     })
       .then(({ data }) => {
         localStorage.setItem("token", data.signIn.token);
+        context.setIsLoggedIn(true);
       })
       .catch(console.error);
   };

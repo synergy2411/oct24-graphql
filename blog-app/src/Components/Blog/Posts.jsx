@@ -17,9 +17,11 @@ const FETCH_POSTS = gql`
 `;
 
 function Posts() {
-  const { data, error, loading } = useQuery(FETCH_POSTS);
+  const { data, error, loading, refetch } = useQuery(FETCH_POSTS);
 
-  console.log(data, error, loading);
+  // console.log(data, error, loading);
+
+  refetch();
 
   return (
     <div className="container">
@@ -27,7 +29,7 @@ function Posts() {
       <div className="row">
         {data &&
           data.posts.map((post) => (
-            <div className="col-4">
+            <div className="col-4" key={post.id}>
               <div className="card">
                 <div className="card-body">
                   <h5 className="text-center">{post.title.toUpperCase()}</h5>
